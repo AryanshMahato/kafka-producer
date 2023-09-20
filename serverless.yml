@@ -1,0 +1,27 @@
+service: kafka-producer
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
+
+functions:
+  main:
+    package:
+      include:
+        - dist/**
+        - node_modules/**
+    handler: dist/serverless.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
